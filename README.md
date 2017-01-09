@@ -1,4 +1,4 @@
-<h2>storage简介<a href="http://www.shdnfw.com/plugin/localStorage/demo.html" target="_blank">本地存储storage(localStorage)的使用示例</a></h2>
+<h2>storage简介<a href="http://www.shdnfw.com/plugin/localStorage/demo.html">本地存储storage(localStorage)的使用示例</a></h2>
 <p>storage是基于html5 localStorage本地存储的一个简易改造封装使其变通用的js组件,localStorage 属性允许你访问一个 localStorage 对象，将所需存储数据存储于本地当中，存储在 localStorage 里面的数据没有过期时间（expiration time）</p>
 
 <hr/>
