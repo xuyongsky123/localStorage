@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>本地存储storage(localStorage)的使用示例</title>
+
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+	<script type="text/javascript" src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="js/storage.js"></script>
+</head>
+<body>
+
+	<div class="container">
+
+		<h2>本地存储storage(localStorage)的使用示例</h2>
+		<div class="paramItem">
+			<strong>以下为测试数据<small>（填写测试）</small></strong>
+		</div>
+		<div>
+			<label>姓名：</label>
+			<input type="" name="user" value="勇哥" />
+		</div>
+		<div>
+			<label>年龄：</label>
+			<input type="" name="age" value="18" />
+		</div>
+		<div>
+			<label>职业：</label>
+			<input type="" name="career" value="吹牛公司总裁" />
+		</div>
+		<div>
+			<label>爱好：</label>
+			<div class="vt" id="ah-container">
+				<input type="checkbox" name="ah" value="吹牛" /><label>吹牛</label>
+				<input type="checkbox" checked name="ah" value="游泳" /><label>游泳</label>
+				<input type="checkbox" checked name="ah" value="篮球" /><label>篮球</label>
+				<input type="checkbox" name="ah" value="旅游" /><label>旅游</label>
+				<input type="checkbox" name="ah" value="看书" /><label>看书</label>
+			</div>
+		</div>
+
+		<hr/>
+
+		<ul class="pointMenu">
+			<li id="saveBtn">存储</li>
+			<li id="getBtn">获取</li>
+			<li id="deleteBtn">删除</li>
+			<li id="clearBtn">清空</li>
+		</ul>
+
+		<pre>按钮点击触发调用代码
+	存储：
+		storage.setStorage('info',obj);
+	获取：
+		storage.getStorage('info');
+	删除：
+		storage.removeStorage('info');
+	清空：
+		storage.clearStorage();</pre><br/><br/>
+
+		<div id="show">
+			
+		</div>
+
+	</div>
+
+</body>
+<script type="text/javascript">
+	//获得选择框(复选框/单选框)选中单元的值
+	//参数 nameStr 求值元素的name属性
+	//参数 fatherObj 需要在哪个DOM元素下执行 如果没有传递则使用document
+	function Js_getCheckValue(nameStr, fatherObj){
+		var Checkers;
+		if (!fatherObj || typeof(fatherObj)!= "object"){
+			Checkers = document.getElementsByTagName("input");
+		}else{
+			Checkers = fatherObj.getElementsByTagName("input");
+		}
+		if (!Checkers) return false;
+		var valueStr = [];
+		for (var i=0;i<Checkers.length;i++){
+			if (Checkers[i].name==nameStr && Checkers[i].checked==true){
+				valueStr.push(Checkers[i].value);
+			}
+		}
+		return valueStr;
+	}
+
+	$('#saveBtn').click(function(){
+		$('.pointMenu li').removeClass('sel');
+		$(this).addClass('sel');
+
+		var obj = {};
+		obj.user = $.trim($('input[name="user"]').val());
+		obj.age = $.trim($('input[name="age"]').val());
+		obj.career = $.trim($('input[name="career"]').val());
+		obj.hobby = Js_getCheckValue('ah',document.getElementById('ah-container'));
+
+		storage.setStorage('info',obj);
+
+
+		if(obj){
+			htmlTmp = '姓名：'+obj.user+'<br/>年龄：'+obj.age+'<br/>职业：'+obj.career+'<br/>爱好：'+obj.hobby.toString();
+		}else{
+			htmlTmp = '为空';
+		}
+		$('#show').html('本地存储的数据：<br/>'+htmlTmp);
+	});
+
+	$('#getBtn').click(function(){
+		$('.pointMenu li').removeClass('sel');
+		$(this).addClass('sel');
+
+		var obj = storage.getStorage('info');
+		if(obj){
+			htmlTmp = '姓名：'+obj.user+'<br/>年龄：'+obj.age+'<br/>职业：'+obj.career+'<br/>爱好：'+obj.hobby.toString();
+		}else{
+			htmlTmp = '为空';
+		}
+		$('#show').html('本地存储的数据：<br/>'+htmlTmp);
+		
+	});
+
+	$('#deleteBtn').click(function(){
+		$('.pointMenu li').removeClass('sel');
+		$(this).addClass('sel');
+
+		//删除removeStorage()
+		storage.removeStorage('info');
+
+		//获取显示本地存储中的数据
+		var obj = storage.getStorage('info');
+		if(obj){
+			htmlTmp = '姓名：'+obj.user+'<br/>年龄：'+obj.age+'<br/>职业：'+obj.career+'<br/>爱好：'+obj.hobby.toString();
+		}else{
+			htmlTmp = '为空';
+		}
+		$('#show').html('本地存储的数据：<br/>'+htmlTmp);
+	});
+
+	$('#clearBtn').click(function(){
+		$('.pointMenu li').removeClass('sel');
+		$(this).addClass('sel');
+
+		//清空clearStorage()
+		storage.clearStorage();
+
+		//获取显示本地存储中的数据
+		var obj = storage.getStorage('info');
+		if(obj){
+			htmlTmp = '姓名：'+obj.user+'<br/>年龄：'+obj.age+'<br/>职业：'+obj.career+'<br/>爱好：'+obj.hobby.toString();
+		}else{
+			htmlTmp = '为空';
+		}
+		$('#show').html('本地存储的数据：<br/>'+htmlTmp);
+	});
+
+
+</script>
+<script type="text/javascript">
+	$('pre').each(function(){
+		var _tmp = $(this).html();
+		_tmp = _tmp.replace(new RegExp('<','gm'),'&lt;').replace(new RegExp('script-tag',"gm"),'script');
+		$(this).html(_tmp);
+	});
+</script>
+</html>

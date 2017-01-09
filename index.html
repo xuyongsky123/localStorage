@@ -4,119 +4,31 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 	<title>html5本地存储封装函数示例</title>
-	<style>
-	*{margin:0;padding:0;font-size:18px;margin-bottom: 10px;}
-	body {padding:50px;}
-	input{display: block;}
-	input[type="button"]{height:30px;line-height: 30px;padding:0 10px;background-color: #fff;color:#000;border:1px solid #ccc;border-radius: 6px;cursor:pointer;}
-	input[type="text"]{height:36px;line-height: 36px;padding:0 10px;border:1px solid #ccc;}
-	label{display:block;}
-	div{color:red;border-top:1px solid #ccc;padding-top:10px;}
-	</style>
+
+	<link rel="stylesheet" type="text/css" href="css/index.css" />
+
+	<script type="text/javascript" src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
-	<input id="store" type="text" placeholder="输入需要存储的内容" />
-	<input id="saveData" type="button" value="存储" />
-	<input id="removeData" type="button" value="删除存储" />
-	<input id="clearData" type="button" value="清空本地存储" />
-	<input id="getData" type="button" value="获取存储的值" />
-	<label>获取本地存储（localStorage）存储的值为：</label>
-	<div id="show"></div>
-</body>
-<script>
-	/*
-		函数：存储指定名字的数据
-		n:存储的数据key值（存储数据的名字）
-		d:存储的数据
-	*/
-	function setStroageValue(n,d){
-		try{
-	        if(window.localStorage){
-	        	localStorage.removeItem(n);
-	            //存储关键字
-	            localStorage.setItem(n,JSON.stringify(d));
-	        }else{
-	            console.log('您的浏览器不支持localStorage！');
-	        }
-	    }catch(oException){
-	        if(oException.name == 'QuotaExceededError'){
-	            console.log('超出本地存储限额！');
-	            //如果历史信息不重要了，可清空后再设置
-	            //localStorage.clear();
-	        }
-	    }
-	}
-	/*
-		函数：获取指定名字的本地存储
-		n:存储的数据key值（存储数据的名字）
-	*/
-	function getStorageValue(n){
-		try{
-	        if(window.localStorage){
-	            var _data = localStorage.getItem(n);
 
-	            if(_data != null){
-	            	return JSON.parse(_data);
-	            }else{
-	            	return null;
-	            }
+	<div class="container">
+		<h2>storage简介<a href="demo.html">本地存储storage(localStorage)的使用示例</a></h2>
+		<p>storage是基于html5 localStorage本地存储的一个简易改造封装使其变通用的js组件,localStorage 属性允许你访问一个 localStorage 对象，将所需存储数据存储于本地当中，存储在 localStorage 里面的数据没有过期时间（expiration time）</p>
 
-	        }else{
-	            console.log('您的浏览器不支持localStorage！');
-	        }
-	    }catch(oException){
-	        if(oException.name == 'QuotaExceededError'){
-	            console.log('超出本地存储限额！');
-	            //如果历史信息不重要了，可清空后再设置
-	            //localStorage.clear();
-	        }
-	    }
-	}
-	/*
-		函数：删除指定名字的本地存储
-		n:存储的数据key值（存储数据的名字）
-	*/
-	function removeStorageValue(n){
-		try{
-	        if(window.localStorage){
+		<hr/>
 
-	        	localStorage.removeItem(n);
+		<h3>1、开始工作：</h3>
+		<p>
+			我们需要在页面中引入：
+		</p>
+		<pre><script-tag type="text/javascript" src="....../storage.js"></script-tag></pre>
 
-	        }else{
-	            console.log('您的浏览器不支持localStorage！');
-	        }
-	    }catch(oException){
-	        if(oException.name == 'QuotaExceededError'){
-	            console.log('超出本地存储限额！');
-	            //如果历史信息不重要了，可清空后再设置
-	            //localStorage.clear();
-	        }
-	    }
-	}
-	/*
-		函数：清空本地存储
-	*/
-	function clearStorageValue(){
-		try{
-	        if(window.localStorage){
-	        	localStorage.clear();
-	        }else{
-	            console.log('您的浏览器不支持localStorage！');
-	        }
-	    }catch(oException){
-	        if(oException.name == 'QuotaExceededError'){
-	            console.log('超出本地存储限额！');
-	            //如果历史信息不重要了，可清空后再设置
-	            //localStorage.clear();
-	        }
-	    }
-	}
-
-</script>
-<script>
-	//举例
-	//测试对象等数据
-	var _test = {
+		<h3>2、通过js调用：</h3>
+		<p>
+			插件中定义全局变量storage，调用本地存储localStorage存、取、删、清可直接使用storage对象直接调用所需方法，如下：
+		</p>
+		<pre>a) 测试数据：
+	var _data = {
 		name:"勇哥",
 		age:24,
 		love:"妹子",
@@ -126,35 +38,99 @@
 			"吹牛"
 		]
 	}
+b) 调用：
+	存储：storage.setStorage('testData',_data);
+	获取：storage.getStorage('testData');
+	删除：storage.removeStorage('testData');
+	清空：storage.clearStorage();</pre>
+
+		<h3>3、方法说明：</h3>
+		<table>
+			<tr>
+				<th>方法名</th>
+				<th>参数</th>
+				<th>说明</th>
+			</tr>
+			<tr>
+				<td>storage.setStorage(k,v)</td>
+				<td>
+					k:存储的数据key值（存储数据的名字）（必填）<br/>
+					v:存储的数据（必填）
+				</td>
+				<td>存储指定名字的数据</td>
+			</tr>
+			<tr>
+				<td>storage.getStorage(k)</td>
+				<td>
+					k:存储的数据key值（存储数据的名字）（必填）
+				</td>
+				<td>获取指定名字的本地存储数据</td>
+			</tr>
+			<tr>
+				<td>storage.removeStorage(k)</td>
+				<td>k:存储的数据key值（存储数据的名字）（必填）</td>
+				<td>删除指定名字的本地存储</td>
+			</tr>
+			<tr>
+				<td>storage.clearStorage()</td>
+				<td>无</td>
+				<td>清空本地存储的所有数据</td>
+			</tr>
+		</table>
+
+		<h3>4、兼容性：</h3>
+		<p>（兼容性取决于localStorage）</p>
+		<div>PC端：</div>
+		<table>
+			<tr>
+				<th>浏览器</th>
+				<th>Chrome</th>
+				<th>Firefox (Gecko)</th>
+				<th>Internet Explorer</th>
+				<th>Opera</th>
+				<th>Safari (WebKit)</th>
+			</tr>
+			<tr>
+				<td>localStorage</td>
+				<td>4</td>
+				<td>3.5</td>
+				<td>8</td>
+				<td>10.50</td>
+				<td>4</td>
+			</tr>
+		</table>
+		<div>移动端：</div>
+		<table>
+			<tr>
+				<th>平台</th>
+				<th>Android</th>
+				<th>Firefox Mobile (Gecko)</th>
+				<th>IE Phone</th>
+				<th>Opera Mobile</th>
+				<th>Safari Mobile</th>
+			</tr>
+			<tr>
+				<td>localStorage</td>
+				<td>2.1</td>
+				<td>？</td>
+				<td>8</td>
+				<td>11</td>
+				<td>iOS 3.2</td>
+			</tr>
+		</table>
+
+		<h3>5、参考：</h3>
+		<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Storage">localStorage-MDN</a>
 
 
-	var _data = document.getElementById('store');
-	var _saveBtn = document.getElementById('saveData');
-	var _removeBtn = document.getElementById('removeData');
-	var _clearBtn = document.getElementById('clearData');
-	var _getBtn = document.getElementById('getData');
-	var _show = document.getElementById('show');
-
-	//存储
-	_saveBtn.onclick = function(){
-		setStroageValue('testData',_data.value);
-		setStroageValue('test',_test);
-		alert('操作成功！');
-	}
-	//获取
-	_getBtn.onclick = function(){
-		_show.innerHTML = getStorageValue('testData')+"<br/>"+getStorageValue('test').like[2];
-		alert('操作成功！');
-	}
-	//删除
-	_removeBtn.onclick = function(){
-		removeStorageValue('testData');
-		alert('操作成功！');
-	}
-	_clearBtn.onclick = function(){
-		clearStorageValue();
-		alert('操作成功！');
-	}
-
+	</div>
+	
+</body>
+<script type="text/javascript">
+	$('pre').each(function(){
+		var _tmp = $(this).html();
+		_tmp = _tmp.replace(new RegExp('<','gm'),'&lt;').replace(new RegExp('script-tag',"gm"),'script');
+		$(this).html(_tmp);
+	});
 </script>
 </html>
